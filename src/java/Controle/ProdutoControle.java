@@ -1,7 +1,7 @@
 package Controle;
 
 
-import Modelo.Carrinho;
+
 import Modelo.Produto;
 import DAO.ProdutoDAO;
 import java.io.IOException;

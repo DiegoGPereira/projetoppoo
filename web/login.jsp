@@ -1,35 +1,24 @@
-<%-- 
-    Document   : login.jsp
-    Created on : 20/05/2019, 00:55:06
-    Author     : Diego
---%>
+<jsp:include page="Assets/header.jsp" />
 
-<!DOCTYPE html>
-    <html>
-    <head>
-    
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<main role="main" class="inner cover">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
-    </head>
-    <body>
 
-        <br>
-    
-        <form method="POST" action="login">
-            <input type="text" placeholder="Email" name="email" required><br>
-            <input type="password" placeholder="Senha" name="senha" required><br>
+<form method="POST" action="login">
             
-                ${msgErro}
+            <div class="form-group">
+                <label for="inputEmail">Endere&ccedil;o de Email</label>
+                <input id="inputemail" type="email" class="form-control" placeholder="Email" name="email" required><br>
+            </div>
+            <div class="form-group">
+                <label for="inputpass">Senha</label>
+                <input id="inputpass" type="password" class="form-control" placeholder="Senha" name="senha" required><br>
+            </div>
+            
+            ${msgErro}
          
-            
-            <input type="submit" value="Entrar">
-        </form>                
+            <input type="submit" class="btn btn-primary" value="Entrar">
+</form>
 
+</main>
 
-</body>
-</html>
+<jsp:include page="Assets/footer.jsp" />
