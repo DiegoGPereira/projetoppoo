@@ -33,7 +33,7 @@ public class ProdutoDAO {
       PreparedStatement comando = con.prepareStatement("select * from produtos");
       ResultSet resultado = comando.executeQuery();
       
-      List<Produto> todosProdutos = new ArrayList<Produto>();
+      List<Produto> todosProdutos = new ArrayList<>();
       while (resultado.next()) {
           Produto p = new Produto();
           p.setId(resultado.getInt("id"));

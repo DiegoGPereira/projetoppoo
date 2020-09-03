@@ -1,6 +1,6 @@
 <footer class="mastfoot mt-auto">
 	<div class="inner">
-		<p>Copyright Â© Diego Pereira | Todos Direitos Reservados.</p>
+		<p>© Diego Pereira</p>
 	</div>
 </footer>
 

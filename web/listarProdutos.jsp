@@ -1,55 +1,35 @@
-<%@page import="java.util.List"%>
-<%@page import="Modelo.Produto" %>
-<%@page import="Controle.ProdutoControle" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<jsp:include page="Assets/header.jsp" />
 
-<%-- 
-    Document   : listarProdutos
-    Created on : 21/05/2019, 21:28:24
-    Author     : Diego
---%>
+<h1>Lista de Produtos</h1>
+<hr>
 
-<!DOCTYPE html>
-<html>
-    <head>
-    
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<table class="table table-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">DESCRIÇÃO</th>
+        <th scope="col">PREÇO</th>
+    <c:if test="${usuarioLogado != null}">
+        <th scope="col">OPÇÕES</th>
+    </c:if> 
+</tr>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
-    </head>
-    <body>
-        
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>DESCRICAO</th>
-            <th>PRECO</th>
-            <c:if test="${usuarioLogado != null}">
-            <th>OPCOES</th>
-            </c:if> 
-        </tr>
-        
-        <c:forEach items="${produto}" var="p">
+<c:forEach items="${produto}" var="p">
 
-            <tr>
-                <td>${p.id}</td>
-                <td>${p.descricao}</td>
-                <td>${p.preco}</td>
-                <c:if test="${usuarioLogado != null}">
-                    
-                <td>
-                    <a href="iniciarEdicaoProduto?id=${p.id}"><button class="button">Editar</button></a>
-                    <a href="excluirProduto?id=${p.id}"><button class="button">Excluir</button></a>
-                    <a href="adicionarNoCarrinho?id=${p.id}"><button class="button">Adicionar ao Carrinho</button></a> 
-                </td>
-                </c:if>  
-            </tr> 
+    <tr>
+        <td>${p.id}</td>
+        <td>${p.descricao}</td>
+        <td>${p.preco}</td>
+    <c:if test="${usuarioLogado != null}">
 
-        </c:forEach>
-    </table>
-    </body>
-</html>
+        <td>
+            <a href="iniciarEdicaoProduto?id=${p.id}"><button class="button">Editar</button></a>
+            <a href="excluirProduto?id=${p.id}"><button class="button">Excluir</button></a>
+            <a href="adicionarNoCarrinho?id=${p.id}"><button class="button">Adicionar ao Carrinho</button></a> 
+        </td>
+    </c:if>  
+    </tr> 
+
+</c:forEach>
+</table>
+<jsp:include page="Assets/footer.jsp" />

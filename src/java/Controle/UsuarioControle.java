@@ -54,9 +54,7 @@ public class UsuarioControle extends HttpServlet {
         if (url.equals(request.getContextPath() + "/login")){
             try {
                 login(request, response);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(UsuarioControle.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
+            } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(UsuarioControle.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else {
