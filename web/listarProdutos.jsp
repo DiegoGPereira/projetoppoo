@@ -9,27 +9,27 @@
         <th scope="col">ID</th>
         <th scope="col">DESCRIÇÃO</th>
         <th scope="col">PREÇO</th>
-    <c:if test="${usuarioLogado != null}">
-        <th scope="col">OPÇÕES</th>
-    </c:if> 
-</tr>
+            <c:if test="${usuarioLogado != null}">
+            <th scope="col">OPÇÕES</th>
+            </c:if> 
+    </tr>
 
-<c:forEach items="${produto}" var="p">
+    <c:forEach items="${produto}" var="p">
 
-    <tr>
-        <td>${p.id}</td>
-        <td>${p.descricao}</td>
-        <td>${p.preco}</td>
-    <c:if test="${usuarioLogado != null}">
+        <tr>
+            <td>${p.id}</td>
+            <td>${p.descricao}</td>
+            <td>${p.preco}</td>
+            <c:if test="${usuarioLogado != null}">
 
-        <td>
-            <a href="iniciarEdicaoProduto?id=${p.id}"><button class="button">Editar</button></a>
-            <a href="excluirProduto?id=${p.id}"><button class="button">Excluir</button></a>
-            <a href="adicionarNoCarrinho?id=${p.id}"><button class="button">Adicionar ao Carrinho</button></a> 
-        </td>
-    </c:if>  
-    </tr> 
+                <td>
+                    <a href="iniciarEdicaoProduto?id=${p.id}"><button class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                    <a href="excluirProduto?id=${p.id}"><button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                    <a href="adicionarNoCarrinho?id=${p.id}"><button class="btn btn-success"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button></a> 
+                </td>
+            </c:if>  
+        </tr> 
 
-</c:forEach>
+    </c:forEach>
 </table>
 <jsp:include page="Assets/footer.jsp" />

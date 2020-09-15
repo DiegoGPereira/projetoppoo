@@ -1,24 +1,23 @@
 package Controle;
 
-
-
 import Modelo.Produto;
 import DAO.ProdutoDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Diego
  */
-@WebServlet(urlPatterns = {"/excluirProduto", "/listarProdutos", "/iniciarEdicaoProduto", "/cadastrarProduto", "/editarProduto"})
+@WebServlet(urlPatterns = {"/excluirProduto", "/listarProdutos", "/iniciarEdicaoProduto", "/cadastrarProduto", "/editarProduto", "/adicionarNoCarrinho", "/removerProduto", "/finalizarCompra"})
 public class ProdutoControle extends HttpServlet {
 
     @Override
@@ -34,11 +33,14 @@ public class ProdutoControle extends HttpServlet {
                 listarTodos(request, response);
             } else if (uri.equals(request.getContextPath() + "/iniciarEdicaoProduto")) {
                 iniciarEdicao(request, response);
+            } else if (uri.equals(request.getContextPath() + "/adicionarNoCarrinho")) {
+                Carrinho(request, response);
+            } else if (uri.equals(request.getContextPath() + "/removerProduto")) {
+                RemoverProduto(request, response);
             } else {
                 listarTodos(request, response);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
             response.sendRedirect("erro.jsp");
         }
     }
@@ -47,7 +49,7 @@ public class ProdutoControle extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         Produto p = new Produto();
         p.setId(id);
-        
+
         ProdutoDAO dao = new ProdutoDAO();
         dao.excluir(p);
 
@@ -78,6 +80,53 @@ public class ProdutoControle extends HttpServlet {
         request.getRequestDispatcher("iniciarEdicao.jsp").forward(request, response);
     }
 
+    public void RemoverProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
+
+        Produto produto = new Produto();
+        produto.setId(Integer.parseInt(request.getParameter("id")));
+        ProdutoDAO dao = new ProdutoDAO();
+        produto = dao.consultarPorId(produto);
+
+        HttpSession session = request.getSession(true);
+        List<Produto> retornoLista = (List<Produto>) session.getAttribute("lista");
+
+        retornoLista.remove(produto);
+
+        session.setAttribute("lista", retornoLista);
+
+        request.getRequestDispatcher("carrinho.jsp").forward(request, response);
+    }
+
+    public void Carrinho(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
+
+        Produto produto = new Produto();
+        produto.setId(Integer.parseInt(request.getParameter("id")));
+        ProdutoDAO dao = new ProdutoDAO();
+        produto = dao.consultarPorId(produto);
+
+        HttpSession session = request.getSession(true);
+        List<Produto> retornoLista = (List<Produto>) session.getAttribute("lista");
+
+        retornoLista = AdicionaItens(produto, retornoLista);
+
+        session.setAttribute("lista", retornoLista);
+
+        request.getRequestDispatcher("carrinho.jsp").forward(request, response);
+    }
+
+    public List<Produto> AdicionaItens(Produto produto, List<Produto> lista) {
+
+        if (lista == null) {
+
+            lista = new ArrayList<>();
+
+        }
+
+        lista.add(produto);
+
+        return lista;
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -89,8 +138,10 @@ public class ProdutoControle extends HttpServlet {
                 cadastrar(request, response);
             } else if (uri.equals(request.getContextPath() + "/editarProduto")) {
                 confirmarEdicao(request, response);
+            } else if (uri.equals(request.getContextPath() + "/finalizarCompra")) {
+                finalizarCompra(request, response);
             } else {
-                response.sendRedirect("404.jsp");
+                response.sendRedirect("erro.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,6 +161,18 @@ public class ProdutoControle extends HttpServlet {
 
     }
 
+    private void finalizarCompra(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException, ServletException {
+        HttpSession session = request.getSession(true);
+        List<Produto> retornoLista = (List<Produto>) session.getAttribute("lista");
+
+        retornoLista.removeAll(retornoLista);
+
+        request.setAttribute("msg", "Sua compra foi finalizada com sucesso. Obrigado!");
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+
+
+    }
+
     private void confirmarEdicao(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException {
 
         Produto produto = new Produto();
@@ -120,7 +183,7 @@ public class ProdutoControle extends HttpServlet {
         ProdutoDAO dao = new ProdutoDAO();
         dao.editar(produto);
 
-        response.sendRedirect("listarProdutos");
+        response.sendRedirect("index.jsp");
 
     }
 

@@ -7,10 +7,10 @@ create table usuarios(
 create table produtos(
    id serial primary key,
    descricao varchar(255),
-   preco DECIMAL(8,2)
+   preco DECIMAL(16,2)
 );
 
-insert into usuarios values (1, 'diegopereira@gmail.com', 'diego123') ;
+insert into usuarios values (1, 'daniloesteves2012@gmail.com', 'danilo') ;
 insert into usuarios values (2, 'admin', 'admin');
 select * from usuarios;
 select * from produtos;

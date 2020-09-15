@@ -22,7 +22,6 @@
     <br><br>
     <button class="btn btn-primary" type="submit">Atualizar</button>
     <a href="listarProdutos"><button class="btn btn-danger" type="submit">Voltar</button></a>
-</div>
 
 </form>
 
