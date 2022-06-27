@@ -31,10 +31,10 @@ public class ProdutoDAO {
     public List<Produto> consultarTodos() throws ClassNotFoundException, SQLException {
         Connection con = FabricaConexao.getConexao();
 
-        PreparedStatement comando = con.prepareStatement("select * from produtos");
+        PreparedStatement comando = con.prepareStatement("select * from produtos order by id");
         ResultSet resultado = comando.executeQuery();
 
-        List<Produto> todosProdutos = new ArrayList<Produto>();
+        List<Produto> todosProdutos = new ArrayList<>();
         while (resultado.next()) {
             Produto p = new Produto();
             p.setId(resultado.getInt("id"));
@@ -51,12 +51,11 @@ public class ProdutoDAO {
         Connection con = FabricaConexao.getConexao();
 
         PreparedStatement comando = con.prepareStatement("UPDATE produtos\n" +
-                "SET id=?, descricao=?, preco=?\n" +
+                "SET descricao=?, preco=?\n" +
                 "WHERE id = ?");
-        comando.setInt(1, produto.getId());
-        comando.setString(2, produto.getDescricao());
-        comando.setDouble(3, produto.getPreco());
-        comando.setInt(4, produto.getId());
+        comando.setString(1, produto.getDescricao());
+        comando.setDouble(2, produto.getPreco());
+        comando.setInt(3, produto.getId());
         comando.execute();
 
         con.close();

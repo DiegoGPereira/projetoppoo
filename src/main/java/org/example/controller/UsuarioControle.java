@@ -68,7 +68,7 @@ public class UsuarioControle extends HttpServlet {
 
         if (usuario != null) {
             request.getSession(true).setAttribute("usuarioLogado", usuario);
-            response.sendRedirect("header.jsp");
+            response.sendRedirect("index.jsp");
         } else {
             request.setAttribute("msgErro", "Dados incorretos");
             request.getRequestDispatcher("login.jsp").forward(request, response);
